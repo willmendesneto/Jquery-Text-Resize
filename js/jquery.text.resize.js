@@ -36,19 +36,19 @@ $.textResize = function( selector, settings ){
 	 *
 	 **/
 	var config = {
-		'variation'			: 2					//	Valor da Variacao  dos elementos
-		, 'animation' 		: false				//	Animacao da transicao do elemento ("true" or "false")
-		, 'delay'			: 1000				//	Temporizador da animacao	("DELAY"; Somente aceito no caso do valor da animacao ser "true")
-		, 'reduceText' 		: 'A-'				//	Texto padrao para o campo de reducao da fonte
-		, 'resetText' 		: 'A'				//	Texto padrao para o campo de tamanho padrao da fonte	
-		, 'enlargeText' 	: 'A+'				//	Texto padrao para o campo de acrescimo de fonte
+		'variation'		: 2			//	Valor da Variacao  dos elementos
+		, 'animation' 		: false			//	Animacao da transicao do elemento ("true" or "false")
+		, 'delay'		: 1000			//	Temporizador da animacao	("DELAY"; Somente aceito no caso do valor da animacao ser "true")
+		, 'reduceText' 		: 'A-'			//	Texto padrao para o campo de reducao da fonte
+		, 'resetText' 		: 'A'			//	Texto padrao para o campo de tamanho padrao da fonte	
+		, 'enlargeText' 	: 'A+'			//	Texto padrao para o campo de acrescimo de fonte
 		, 'classReduce' 	: 'reduceText'		//	Nome da classe de reducao da fonte
 		, 'classReset' 		: 'resetText'		//	Nome da classe de reducao da fonte
 		, 'classEnlarge' 	: 'enlargeText'		//	Nome da classe de reducao da fonte
-		, 'clicks'			: false				//	Quantidade de clicks configurado ("false" ou inteiro referente a quantidade de clicks aceitos)
-		, 'containerInsert' : false				//	Container onde vao ser inseridos os elementos ("false" ou nome do elemento onde serao inseridos os elementos EX: "#container-test" ou ".container-test")
-		, 'optionInterface' : 'link'			//	Opcao de retorno de insercao dos elementos que trabalham com a fonte ("link" ou "button"; Aceitos somente se a opcao "containerInsert" for diferente de "false")
-		, 'cookie'			: false				//	Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
+		, 'clicks'		: false			//	Quantidade de clicks configurado ("false" ou inteiro referente a quantidade de clicks aceitos)
+		, 'containerInsert' 	: false			//	Container onde vao ser inseridos os elementos ("false" ou nome do elemento onde serao inseridos os elementos EX: "#container-test" ou ".container-test")
+		, 'optionInterface' 	: 'link'		//	Opcao de retorno de insercao dos elementos que trabalham com a fonte ("link" ou "button"; Aceitos somente se a opcao "containerInsert" for diferente de "false")
+		, 'cookie'		: false			//	Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
 		, 'fontType'		: 'px'
 	}
 	if(settings){
@@ -56,17 +56,17 @@ $.textResize = function( selector, settings ){
 	}
 	
 	
-	var obj 		= $(configSelector);	//	Iniciando o objeto com base no container informado na inicializacao
-	var img 		= obj.find('img');	//	Achando imagem dentro do container inicializado
-	var imgDefault 		= img.width();	//	Pegando a altura da imagem
-	var fontDefault 	= obj.css('font-size');		//	Pegando o atributo "font-size" do container inicializado
+	var obj 		= $(configSelector);			//	Iniciando o objeto com base no container informado na inicializacao
+	var img 		= obj.find('img');			//	Achando imagem dentro do container inicializado
+	var imgDefault 		= img.width();				//	Pegando a altura da imagem
+	var fontDefault 	= obj.css('font-size');			//	Pegando o atributo "font-size" do container inicializado
 	var currentSize 	= parseInt(obj.css('font-size'));	//	Passando o valor "font-size" para um valor @int
-	var userClicksReduce 	= 0;	//	Inicializando o valor de quantidade de clicks para reducao  com '0'
-	var userClicksEnlarge 	= 0;	//	Inicializando o valor de quantidade de clicks para aumento com '0'
-	var percent 		= 100;	//	Valor para imagem
-	var fontEnlarge 	= '';	//	Inicializando o valor de aumento com ''
-	var fontReduce 		= '';	//	Inicializando o valor de reducao com ''
-	var cookieClicks 	= '';	//	Valor do COOKIE
+	var userClicksReduce 	= 0;					//	Inicializando o valor de quantidade de clicks para reducao  com '0'
+	var userClicksEnlarge 	= 0;					//	Inicializando o valor de quantidade de clicks para aumento com '0'
+	var percent 		= 100;					//	Valor para imagem
+	var fontEnlarge 	= '';					//	Inicializando o valor de aumento com ''
+	var fontReduce 		= '';					//	Inicializando o valor de reducao com ''
+	var cookieClicks 	= '';					//	Valor do COOKIE
 	var value 		= '';
 	
 	//Pegando o valor do COOKIE, caso ele exista no NAVEGADOR insere o valor dele no container especificado 
