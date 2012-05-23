@@ -1,15 +1,12 @@
 /**
  * Jquery Text Resize plugin
  *
- * Copyright (c) 2012 Wilson Mendes ()
- * Dual licensed under the MIT and GPL licenses:
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
+ * @2012 Wilson Mendes ()
  *
  */
 
 /**
- * Resize de text of content especific; Accept some optional parameters.
+ * Modifica o tamanho de fonte do text; Aceita alguns parametros opcionais.
  *
  * @example $.textResize('#the_content', { 'array_option' });
  * @desc Descreve o conteúdo de ações do plugin.
@@ -17,14 +14,13 @@
  * @desc Descreve o conteúdo com os valores padrão.
  *
  * @param String com o valor referente ao nome do container ("nome do div" ou "nome da classe").
- * @param String value The value of the cookie.
- * @param Objeto com os atrbutos do plugin para inicialização.
+ * @param Array com os atrbutos do plugin para inicialização.
  * @type undefined
  *
  * @name $.textResize
  * @cat Plugins/ Jquery Text Resize
  * @author Wilson Mendes/willmendesneto@gmail.com
- * @author Thiago Teles/willmendesneto@gmail.com
+ * @author Thiago Teles/thiagoteles.designer@gmail.com
  */
  
  /* Inicializando o plugin */
@@ -60,20 +56,20 @@ $.textResize = function( selector, settings ){
 	}
 	
 	
-	var obj 				= $(configSelector);
-	var img 				= obj.find('img');
-	var imgDefault 			= img.width();
-	var fontDefault 		= obj.css('font-size');
-	var currentSize 		= parseInt(obj.css('font-size'));
-	var userClicksReduce 	= 0;
-	var userClicksEnlarge 	= 0;
-	var percent 			= 100;
-	var fontEnlarge 		= '';
-	var fontReduce 			= '';
-	var cookieClicks 		= '';
-	var value 				= '';
+	var obj 		= $(configSelector);	//	Iniciando o objeto com base no container informado na inicializacao
+	var img 		= obj.find('img');	//	Achando imagem dentro do container inicializado
+	var imgDefault 		= img.width();	//	Pegando a altura da imagem
+	var fontDefault 	= obj.css('font-size');		//	Pegando o atributo "font-size" do container inicializado
+	var currentSize 	= parseInt(obj.css('font-size'));	//	Passando o valor "font-size" para um valor @int
+	var userClicksReduce 	= 0;	//	Inicializando o valor de quantidade de clicks para reducao  com '0'
+	var userClicksEnlarge 	= 0;	//	Inicializando o valor de quantidade de clicks para aumento com '0'
+	var percent 		= 100;	//	Valor para imagem
+	var fontEnlarge 	= '';	//	Inicializando o valor de aumento com ''
+	var fontReduce 		= '';	//	Inicializando o valor de reducao com ''
+	var cookieClicks 	= '';	//	Valor do COOKIE
+	var value 		= '';
 	
-	//Pegando o valor do COOKIE, caso ele exista no NAVEGADOR 
+	//Pegando o valor do COOKIE, caso ele exista no NAVEGADOR insere o valor dele no container especificado 
 	if( (config.cookie !== false) && (config.cookie !== 'null') ){
 	
 		cookieClicks = $.cookie(config.cookie);		
@@ -82,7 +78,7 @@ $.textResize = function( selector, settings ){
 	
 	//Verificacao da configuracao do container onde sera inserido os botoes/links do plugin, verificando a configuracao do plugin
 	if(config.containerInsert !== false){
-		
+		// Verificacao para a opcao de interface como LINK ou BUTTON
 		if(config.optionInterface == 'link' ){
 			$(config.containerInsert).html('<a href="#" class="' + config.classReduce + '" title="reduce text">' + config.reduceText + '</a><a href="#" class="' + config.classReset + '" title="reset text">' + config.resetText + '</a><a href="#" class="' + config.classEnlarge + '" title="enlarge text">' + config.enlargeText + '</a>');
 		}else if(config.optionInterface == 'button' ){
@@ -109,8 +105,9 @@ $.textResize = function( selector, settings ){
 				obj.css('font-size', fontReduce); 
 			 }
 			 
+			// Incremento no contador REDUCE
 			 ++userClicksReduce;
-			 
+			// Decremento no contador ENLARGE
 			if( userClicksEnlarge > 0){
 				--userClicksEnlarge;
 			}
@@ -146,9 +143,9 @@ $.textResize = function( selector, settings ){
 			}else{
 				obj.css('font-size', fontEnlarge);
 			}
-			
+			// Decremento no contador ENLARGE
 			++userClicksEnlarge;
-			
+			// Decremento no contador REDUCE
 			if( userClicksReduce > 0){
 				--userClicksReduce;
 			}
@@ -187,13 +184,12 @@ $.textResize = function( selector, settings ){
 		//	COOKIE Verification
 		if( (config.cookie !== false)){
 			cookieClicks = 'null';
-			//$.cookie( config.cookie );
 			$.cookie(config.cookie, cookieClicks);
 		}
 		
 	});
 	
-	//	Return the value for application
+	//	Retornando o valor para a aplicacao
 	return this;
 }
 })(jQuery);
