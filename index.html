@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Plugin Jquery text resize by willmendesneto</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/willmendesneto/Jquery-Text-Resize">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/willmendesneto/Jquery-Text-Resize/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/willmendesneto/Jquery-Text-Resize/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Plugin Jquery text resize</h1>
+          <p>Manipulação e redimensionamento de texto</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/willmendesneto">willmendesneto</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <p>Plugin Jquery Text Resize
+Desenvolvido por:
+Wilson Mendes - Analista de Sistemas/Desenvolvedor Web
+Thiago teles  - Web Design</p>
+
+<p><a href="https://github.com/email" class="user-mention">@email</a> : <a href="mailto:willmendesneto@gmail.com">willmendesneto@gmail.com</a></p>
+
+<h2>Plugin Jquery Text Resize</h2>
+
+<h1></h1>
+
+<p>O plugin jquery.text.resize.js é um plugin de fácil utilização e inicialização.</p>
+
+<h2>Instalação:</h2>
+
+<hr><p>Sua implementação no documento é bastante simples. Basta baixar o arquivo jquery.text.resize.js e descompactar o arquivo
+em seu projeto na pasta de sua escolha e incluir o arquivo ao documento </p>
+
+<h2>Como usar:</h2>
+
+<hr><p>Inserir o arquivo referente ao plugin jquery (testado com +jquery.1.6.2.js), o arquivo jquery.text.resize.js e caso 
+haja a necessidade de persistência em COOKIE inserir o arquivo jquery.cookie.js. </p>
+
+<p>Exemplo:</p>
+
+<h3>Javascript</h3>
+
+<pre><code>   &lt;!--jQuery--&gt;
+  &lt;script src="http://code.jquery.com/jquery-1.7.1.min.js"&gt;&lt;/script&gt;
+  &lt;!--jQuery Text Resize--&gt;
+  &lt;script type="text/javascript" src="js/jquery.text.resize.js"&gt;&lt;/script&gt;
+  &lt;!--jQuery Cookie--&gt;
+  &lt;script type="text/javascript" src="js/jquery.cookie.js"&gt;&lt;/script&gt;
+
+  &lt;script type="text/javascript"&gt;
+    $(document).ready(function() {
+      $.textResize('#content'
+                  , {'variation': 2
+                  , 'animation' : true
+                  , 'containerInsert' : '.myContainer'
+                  , 'reduceText' : 'Conteúdo reduzido'
+                  , 'resetText' : 'Fonte Padrão'
+                  , 'enlargeText' : 'Conteúdo aumentado'
+                  , 'classReduce' : 'diminuir'
+                  , 'classReset' : 'normal'
+                  , 'classEnlarge' : 'aumentar'
+                  , 'optionInterface' : 'button'
+                  , 'clicks' : 5
+                  , 'cookie' : 'tamanho'
+      } );
+    });
+  &lt;/script&gt; 
+</code></pre>
+
+<hr><h3>HTML</h3>
+
+<pre><code>  &lt;!-- CONTAINER ONDE SERÃO INSERIDOS OS BOTOES --&gt;
+  &lt;div class="myContainer"&gt;&lt;/div&gt;
+  &lt;div id="content"&gt;
+    &lt;p&gt;Conteúdo a ser modificado pelo plugin.&lt;/p&gt;
+  &lt;/div&gt;
+</code></pre>
+
+<hr><p>Este container vai ser reescrito pelo plugin com as informações passadas na inicialização</p>
+
+<h3>HTML</h3>
+
+<pre><code>  &lt;div class="myContainer"&gt;
+    &lt;input class="diminuir" type="button" value="Conteúdo reduzido"&gt;
+    &lt;input class="normal" type="button" value="Fonte Padrão"&gt;
+    &lt;input class="aumentar" type="button" value="Conteúdo aumentado"&gt;
+  &lt;/div&gt;
+</code></pre>
+
+<hr><h2>Opções</h2>
+
+<hr><p>As opções de configuração fornecidas pelo plugin são as seguintes: </p>
+
+<h3>Javascript</h3>
+
+<pre><code>'variation' : 2 // Valor da Variacao dos elementos
+, 'animation' : false // Animacao da transicao do elemento ("true" or "false")
+, 'delay' : 1000 // Temporizador da animacao ("DELAY"; Somente aceito no caso do valor da animacao ser "true")
+, 'reduceText' : 'A-' // Texto padrao para o campo de reducao da fonte
+, 'resetText' : 'A' // Texto padrao para o campo de tamanho padrao da fonte
+, 'enlargeText' : 'A+' // Texto padrao para o campo de acrescimo de fonte
+, 'classReduce' : 'reduceText' // Nome da classe de reducao da fonte
+, 'classReset' : 'resetText' // Nome da classe de reducao da fonte
+, 'classEnlarge' : 'enlargeText' // Nome da classe de reducao da fonte
+, 'clicks' : false // Quantidade de clicks configurado ("false" ou inteiro referente a quantidade de clicks aceitos)
+, 'containerInsert' : false // Container onde vao ser inseridos os elementos ("false" ou nome do elemento onde serao inseridos os elementos EX: "#container-test" ou ".container-test")
+, 'optionInterface' : 'link' // Opcao de retorno de insercao dos elementos que trabalham com a fonte ("link" ou "button"; Aceitos somente se a opcao "containerInsert" for diferente de "false")
+, 'cookie' : false // Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
+</code></pre>
+
+<hr>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
