@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Jquery Text Resize</title>  
+    
+    
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <!--jQuery-->
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="js/jquery-1.7.1.min.js">\x3c/script>')
+    </script>
+    <!--jQuery Text Resize-->
+	<script type="text/javascript" src="js/jquery.text.resize.js"></script>
+    <!--jQuery Cookie-->
+	<script type="text/javascript" src="js/jquery.cookie.js"></script>
+    
+    <script type="text/javascript">
+		$(document).ready(function() {			
+			$.textResize('#content'
+						, {'variation': 2
+							, 'animation' : true
+							, 'containerInsert' : '.myContainer'
+							, 'reduceText' 		: 'Conteúdo reduzido'
+							, 'resetText' 		: 'Fonte Padrão'
+							, 'enlargeText' 	: 'Conteúdo aumentado'
+							, 'classReduce' 	: 'diminuir'
+							, 'classReset' 		: 'normal'
+							, 'classEnlarge' 	: 'aumentar'
+							, 'optionInterface' : 'button'
+							, 'clicks'			: 5
+							, 'cookie'			: 'tamanho'
+							} );
+        });
+	</script>    
+    </head>
+    
+    <body>
+    	
+        <div id="header"></div>
+    	
+        <!-- 	CONTAINER ONDE SERÃO INSERIDOS OS BOTOES	-->
+    	<div class="myContainer"></div>
+        	<div id="otherText">
+                <p>O conteúdo deste container não sofrerá nenhuma ação do plugin jquery text resize</p>
+            </div>
+    	<div id="content">
+    
+           	<h1>Lorem Ipsum</h1>    	
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut feugiat augue. Aenean quis nisi et turpis pellentesque dignissim. Nam lacinia, libero quis sagittis bibendum, tellus neque sagittis purus, et porta metus elit mollis ligula. Vivamus at commodo leo. Nam fringilla dolor non nulla rhoncus viverra. Donec sed sapien dolor. Suspendisse sed mi eros, vestibulum vulputate urna. Suspendisse convallis pretium vehicula. Cras hendrerit urna tellus, at elementum ante. Donec sagittis egestas vulputate.             
+            </p>
+            <ul>
+                <li>item</li>
+                <li>item</li>
+                <li>item</li>
+                <li>item</li>
+            </ul>
+            <p>
+                Pellentesque et felis elit. Aliquam blandit facilisis erat, vitae malesuada lectus faucibus sit amet. Nunc nec dui eu magna fermentum vulputate. Quisque diam dui, varius at luctus et, ultrices vel urna. Pellentesque non tortor vel erat tristique varius. Sed iaculis quam sit amet metus tempus convallis. Morbi tincidunt mi sed nisl gravida eu sollicitudin massa vulputate. Aliquam tristique pharetra nunc quis egestas. Nam quis turpis urna. Aliquam lacus massa, pharetra quis commodo et, cursus sed erat. Vestibulum aliquet gravida risus, a mattis arcu interdum eu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla laoreet felis at magna luctus dignissim. Proin posuere facilisis nisl nec egestas. Maecenas auctor laoreet nulla sit amet luctus. Vivamus commodo diam sed nisi lobortis varius. 
+            </p>
+            <p>
+            	<img src="http://lorempixel.com/150/140/" alt="Image" title="Image" />
+            	<img src="img/img_001.jpg" alt="Image" title="Image" />
+                Maecenas turpis tellus, interdum a tempor id, porttitor vel tellus. Aenean tempor eleifend rhoncus. Nam blandit erat sed orci placerat nec congue sapien viverra. In hac habitasse platea dictumst. Praesent placerat ullamcorper enim, ac rutrum tortor mattis sed. In nec lobortis quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus placerat convallis arcu in tincidunt. Praesent luctus, ipsum at auctor egestas, urna lectus tincidunt mauris, sed blandit lacus nisl a enim. Nam bibendum quam eu nunc euismod eget venenatis odio porta. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque feugiat elementum fringilla. 
+            </p>
+			<div class="clear"></div>
+        </div>
+        
+    </body>
+</html>
