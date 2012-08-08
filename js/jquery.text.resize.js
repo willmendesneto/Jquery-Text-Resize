@@ -24,7 +24,7 @@
  */
  
  /* Inicializando o plugin */
-(function($){
+;(function($){
 $.textResize = function( selector, settings ){
 	
 	var configSelector = 'html';
