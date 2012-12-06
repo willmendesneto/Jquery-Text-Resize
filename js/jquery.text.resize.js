@@ -27,7 +27,7 @@
 (function($) {
 	$.textResize = function(selector, settings) {
 
-		var configSelector = 'html';
+		var configSelector = 'html, body';
 		if (selector) {
 			configSelector = selector;
 		}
@@ -47,8 +47,10 @@
 											//EX: "#container-test" ou ".container-test")
 			'optionInterface' : 'link', 	// Opcao de retorno de insercao dos elementos que trabalham com a fonte ("link" ou "button";
 											// Aceitos somente se a opcao "containerInsert" for diferente de "false")
-			'cookie' : false, 				// Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
-			'fontType' : 'px'
+			'cookie' : true, 				// Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
+			'fontType' : 'px',
+			'imageAnimation' : false, 				// Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
+
 		}
 		if (settings) {
 			$.extend(config, settings);
@@ -56,23 +58,32 @@
 
 		var obj = $(configSelector), // o objeto com base no container informado na inicializacao
 			img = obj.find('img'), // Achando imagem dentro do container inicializado
-			imgDefault = img.width(),
-			imgDefaultHeight = img.height(),
 			// Pegando a altura da imagem
 			fontDefault = obj.css('font-size'), // Pegando o atributo "font-size" do container inicializado
 			currentSize = parseInt(obj.css('font-size')), // Passando o valor "font-size" para um valor @int
 			userClicksReduce = userClicksEnlarge = 0, // Inicializando o valor de quantidade de clicks para aumento com '0'
 			percent = 100, // Valor para imagem
-			fontEnlarge = '', // Inicializando o valor de aumento com ''
-			fontReduce = '', // Inicializando o valor de reducao com ''
-			cookieClicks = '', // Valor do COOKIE
-			value = ''
+			fontEnlarge = fontReduce = cookieClicks = value = ''// Inicializando o valor de reducao com '' Valor do COOKIE
 		;
-
-		img.removeAttr('width').removeAttr('height').width(imgDefault).height(imgDefaultHeight);
+		if(config.imageAnimation !== false){
+			var imgDefault = img.width(),
+				imgDefaultHeight = img.height();
+			img.removeAttr('width').removeAttr('height').width(imgDefault).height(imgDefaultHeight);
+		}
 		// Pegando o valor do COOKIE, caso ele exista no NAVEGADOR insere o valor dele no container especificado
-		if ((config.cookie !== false) && (config.cookie !== 'null')) {
+		if ((config.cookie !== false) && (config.cookie !== 'null') && (config.cookie !== null)) {
 			cookieClicks = $.cookie(config.cookie);
+			currentSize = (! isNaN(cookieClicks) &&  cookieClicks != null) ? parseInt(cookieClicks) : parseInt(fontDefault);
+			console.log(currentSize);
+			//	Verificando se o Tamanho em COOKIE e maior que o tamanho padrao
+			if( currentSize != null && currentSize > fontDefault){
+				userClicksEnlarge = ((currentSize-fontDefault)/2);
+				console.log('aumentado reduce: '+userClicksReduce+ 'current: '+currentSize+', default: '+fontDefault+', cookie: '+cookieClicks);
+			}//	Verificando se o Tamanho em COOKIE e maior que o tamanho padrao
+			if( currentSize != null && currentSize < fontDefault){
+				userClicksReduce = ((fontDefault-currentSize)/2);
+				console.log('aumentado clicks: '+userClicksEnlarge+ 'current: '+currentSize+', default: '+fontDefault+', cookie: '+cookieClicks);
+			}
 			obj.css('font-size', cookieClicks + config.fontType);
 		}
 
@@ -107,16 +118,20 @@
 
 			if (config.clicks > userClicksReduce) {
 
-				percent = percent - config.variation;
+				percent -= config.variation;
 				fontReduce = currentSize - config.variation;
+
 				if (config.animation == true) {
 					obj.animate({
 						'font-size' : fontReduce + config.fontType
 					}, config.delay);
-					img.animate({
-						'width' : parseInt((imgDefault * percent) / 100),
-						'height' : parseInt((imgDefaultHeight * percent) / 100)
-					}, config.delay);
+
+					if(config.imageAnimation !== false){
+						img.animate({
+							'width' : parseInt((imgDefault * percent) / 100),
+							'height' : parseInt((imgDefaultHeight * percent) / 100)
+						}, config.delay);
+					}
 
 				} else {
 					obj.css('font-size', fontReduce);
@@ -124,19 +139,15 @@
 				// Incremento no contador REDUCE
 				++userClicksReduce;
 				// Decremento no contador ENLARGE
-				if (userClicksEnlarge > 0) {
+				if (userClicksEnlarge > 0)
 					--userClicksEnlarge;
-				}
+
 				currentSize = fontReduce;
 				// COOKIE Verification
 				if ((config.cookie != false)) {
 					cookieClicks = $.cookie(config.cookie);
 					cookieClicks = currentSize;
-					$.cookie(config.cookie, null);
-					$.cookie(config.cookie, cookieClicks, {
-						path : '/',
-						expires : 5
-					});
+					$.cookie(config.cookie, cookieClicks, {path : '/', expires : 5 });
 				}
 			}
 		});
@@ -144,50 +155,52 @@
 		$('.' + config.classEnlarge).live('click', function() {
 			if (config.clicks > userClicksEnlarge) {
 
-				percent = percent + config.variation;
+				percent += config.variation;
 				fontEnlarge = currentSize + config.variation;
 				if (config.animation == true) {
 					obj.animate({
 						'font-size' : fontEnlarge + config.fontType
 					}, config.delay);
-					img.animate({
-						'width' : parseInt((imgDefault * percent) / 100),
-						'height' : parseInt((imgDefaultHeight * percent) / 100)
-					}, config.delay);
+
+					if(config.imageAnimation !== false){
+						img.animate({
+							'width' : parseInt((imgDefault * percent) / 100),
+							'height' : parseInt((imgDefaultHeight * percent) / 100)
+						}, config.delay);
+					}
 				} else {
 					obj.css('font-size', fontEnlarge);
 				}
 				// Decremento no contador ENLARGE
 				++userClicksEnlarge;
 				// Decremento no contador REDUCE
-				if (userClicksReduce > 0) {
+				if (userClicksReduce > 0)
 					--userClicksReduce;
-				}
+
 				currentSize = fontEnlarge;
 				// COOKIE Verification
 				if ((config.cookie !== false)) {
 
 					cookieClicks = $.cookie(config.cookie);
 					cookieClicks = currentSize;
-					$.cookie(config.cookie, null);
-					$.cookie(config.cookie, currentSize, {
-						path : '/',
-						expires : 5
-					});
+					$.cookie(config.cookie, currentSize, { path : '/', expires : 5 });
 				}
 			}
 		});
-		// Funcao para retornar o texto ao tamanho padrão
+		// Funcao para retornar o texto ao tamanho padrÃ£o
 		$('.' + config.classReset).live('click', function() {
 
 			if (config.animation == true) {
 				obj.animate({
 					'font-size' : fontDefault
 				}, config.delay);
-				img.animate({
-					'width' : imgDefault,
-					'height' : imgDefaultHeight
-				}, config.delay);
+
+				if(config.imageAnimation !== false){
+					img.animate({
+						'width' : imgDefault,
+						'height' : imgDefaultHeight
+					}, config.delay);
+				}
 			} else {
 				obj.css('font-size', fontDefault);
 			}
@@ -197,7 +210,7 @@
 			// COOKIE Verification
 			if ((config.cookie !== false)) {
 				cookieClicks = 'null';
-				$.cookie(config.cookie, cookieClicks);
+				$.cookie(config.cookie, cookieClicks, { path : '/', expires : 5 });
 			}
 		});
 		return this;
