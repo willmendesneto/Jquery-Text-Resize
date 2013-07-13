@@ -65,23 +65,44 @@
 			percent = 100, // Valor para imagem
 			fontEnlarge = fontReduce = cookieClicks = value = ''// Inicializando o valor de reducao com '' Valor do COOKIE
 		;
+
+		img.css({
+			'max-width': '100%',
+			'height' : 'auto',
+			'vertical-align': 'middle',
+			'-ms-interpolation-mode': 'bicubic'
+		});
+
 		if(config.imageAnimation !== false){
 			var imgDefault = img.width(),
 				imgDefaultHeight = img.height();
-			img.removeAttr('width').removeAttr('height').width(imgDefault).height(imgDefaultHeight);
+			//img.removeAttr('width').removeAttr('height').width(imgDefault).height(imgDefaultHeight);
+			img.removeAttr('width').width(imgDefault);
 		}
 		// Pegando o valor do COOKIE, caso ele exista no NAVEGADOR insere o valor dele no container especificado
 		if ((config.cookie !== false) && (config.cookie !== 'null') && (config.cookie !== null)) {
 			cookieClicks = $.cookie(config.cookie);
 			currentSize = (! isNaN(cookieClicks) &&  cookieClicks != null) ? parseInt(cookieClicks) : parseInt(fontDefault);
+			fontDefault = parseInt(fontDefault);
+
 			console.log(currentSize);
+			console.log(parseInt(fontDefault));
+			console.log(currentSize);
+			console.log((currentSize - fontDefault) / config.variation);
+
 			//	Verificando se o Tamanho em COOKIE e maior que o tamanho padrao
-			if( currentSize != null && currentSize > fontDefault){
-				userClicksEnlarge = ((currentSize-fontDefault)/2);
+			if( currentSize !== null && currentSize > fontDefault){
+				userClicksEnlarge = ((currentSize-fontDefault) / config.variation);
+				console.log(userClicksEnlarge);
+				console.log(parseInt(((imgDefault * percent) / 100) + ( parseInt(imgDefault / 100) + userClicksEnlarge) ) );
+
+				img.css('width', parseInt(((imgDefault * percent) / 100) + ( parseInt(imgDefault / 100) + userClicksEnlarge) ) + config.fontType);
 				console.log('aumentado reduce: '+userClicksReduce+ 'current: '+currentSize+', default: '+fontDefault+', cookie: '+cookieClicks);
 			}//	Verificando se o Tamanho em COOKIE e maior que o tamanho padrao
-			if( currentSize != null && currentSize < fontDefault){
-				userClicksReduce = ((fontDefault-currentSize)/2);
+			if( currentSize !== null && currentSize < fontDefault){
+				userClicksReduce = ((fontDefault-currentSize) / config.variation);
+
+				img.css('width', parseInt(((imgDefault * percent) / 100) - ( parseInt(imgDefault / 100) + userClicksReduce) )  + config.fontType);
 				console.log('aumentado clicks: '+userClicksEnlarge+ 'current: '+currentSize+', default: '+fontDefault+', cookie: '+cookieClicks);
 			}
 			obj.css('font-size', cookieClicks + config.fontType);
@@ -129,12 +150,13 @@
 					if(config.imageAnimation !== false){
 						img.animate({
 							'width' : parseInt((imgDefault * percent) / 100),
-							'height' : parseInt((imgDefaultHeight * percent) / 100)
+							//'height' : parseInt((imgDefaultHeight * percent) / 100)
 						}, config.delay);
 					}
 
 				} else {
 					obj.css('font-size', fontReduce);
+					img.css('width', parseInt((imgDefault * percent) / 100));
 				}
 				// Incremento no contador REDUCE
 				++userClicksReduce;
@@ -165,11 +187,12 @@
 					if(config.imageAnimation !== false){
 						img.animate({
 							'width' : parseInt((imgDefault * percent) / 100),
-							'height' : parseInt((imgDefaultHeight * percent) / 100)
+							//'height' : parseInt((imgDefaultHeight * percent) / 100)
 						}, config.delay);
 					}
 				} else {
 					obj.css('font-size', fontEnlarge);
+					img.css('width', parseInt((imgDefault * percent) / 100));
 				}
 				// Decremento no contador ENLARGE
 				++userClicksEnlarge;
@@ -198,11 +221,12 @@
 				if(config.imageAnimation !== false){
 					img.animate({
 						'width' : imgDefault,
-						'height' : imgDefaultHeight
+						//'height' : imgDefaultHeight
 					}, config.delay);
 				}
 			} else {
 				obj.css('font-size', fontDefault);
+				img.css('width', parseInt(imgDefault));
 			}
 			// Reiniciando os valores
 			userClicksReduce = userClicksEnlarge = 0;
