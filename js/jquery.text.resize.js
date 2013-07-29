@@ -89,25 +89,16 @@
 			currentSize = (! isNaN(cookieClicks) &&  cookieClicks != null) ? parseInt(cookieClicks) : parseInt(fontDefault);
 			fontDefault = parseInt(fontDefault);
 
-			console.log(currentSize);
-			console.log(parseInt(fontDefault));
-			console.log(currentSize);
-			console.log((currentSize - fontDefault) / config.variation);
-
 			//	Verificando se o Tamanho em COOKIE e maior que o tamanho padrao
 			if( currentSize !== null && currentSize > fontDefault){
 				userClicksEnlarge = ((currentSize-fontDefault) / config.variation);
-				console.log(userClicksEnlarge);
-				console.log(parseInt(((imgDefault * percent) / 100) + ( parseInt(imgDefault / 100) + userClicksEnlarge) ) );
 
 				$img.css('width', parseInt(((imgDefault * percent) / 100) + ( parseInt(imgDefault / 100) + userClicksEnlarge) ) + config.fontType);
-				console.log('aumentado reduce: '+userClicksReduce+ 'current: '+currentSize+', default: '+fontDefault+', cookie: '+cookieClicks);
 			}//	Verificando se o Tamanho em COOKIE e maior que o tamanho padrao
 			if( currentSize !== null && currentSize < fontDefault){
 				userClicksReduce = ((fontDefault-currentSize) / config.variation);
 
 				$img.css('width', parseInt(((imgDefault * percent) / 100) - ( parseInt(imgDefault / 100) + userClicksReduce) )  + config.fontType);
-				console.log('aumentado clicks: '+userClicksEnlarge+ 'current: '+currentSize+', default: '+fontDefault+', cookie: '+cookieClicks);
 			}
 			$obj.css('font-size', cookieClicks + config.fontType);
 		}
