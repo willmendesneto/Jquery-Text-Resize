@@ -23,47 +23,70 @@
  * @author Wilson Mendes/willmendesneto@gmail.com
  * @author Thiago Teles/thiagoteles.designer@gmail.com
  */
-;
 (function($) {
+	'use strict';
+
 	$.textResize = function(selector, settings) {
 
-	var configSelector = 'html, body';
+		var configSelector = 'html, body';
 		if (selector) {
 			configSelector = selector;
 		}
 		// Array de configuracoes do Plugin Text Resize
 		var config = {
-			'variation' : 2, 				// Valor da Variacao dos elementos
-			'animation' : false, 			// Animacao da transicao do elemento ("true" or "false")
-			'delay' : 1000, 				// Temporizador da animacao ("DELAY"; Somente aceito no caso do valor da animacao ser "true")
-			'reduceText' : 'A-', 			// Texto padrao para o campo de reducao da fonte
-			'resetText' : 'A', 				// Texto padrao para o campo de tamanho padrao da fonte
-			'enlargeText' : 'A+', 			// Texto padrao para o campo de acrescimo de fonte
-			'classReduce' : 'reduceText', 	// Nome da classe de reducao da fonte
-			'classReset' : 'resetText', 	// Nome da classe de reducao da fonte
-			'classEnlarge' : 'enlargeText', // Nome da classe de reducao da fonte
-			'clicks' : false, 				// Quantidade de clicks configurado ("false" ou inteiro referente a quantidade de clicks aceitos)
-			'containerInsert' : false, 		// Container onde vao ser inseridos os elementos ("false" ou nome do elemento onde serao inseridos os elementos
-											//EX: "#container-test" ou ".container-test")
-			'optionInterface' : 'link', 	// Opcao de retorno de insercao dos elementos que trabalham com a fonte ("link" ou "button";
-											// Aceitos somente se a opcao "containerInsert" for diferente de "false")
-			'cookie' : true, 				// Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
-			'fontType' : 'px',
-			'imageAnimation' : false, 				// Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
-
-		}
+			variation:2,
+			// Valor da Variacao dos elementos
+			animation:false,
+			// Animacao da transicao do elemento ("true" or "false")
+			delay:1000,
+			// Temporizador da animacao ("DELAY"; Somente aceito no caso do valor da animacao ser "true")
+			reduceText:'A-',
+			// Texto padrao para o campo de reducao da fonte
+			resetText:'A',
+			// Texto padrao para o campo de tamanho padrao da fonte
+			enlargeText:'A+',
+			// Texto padrao para o campo de acrescimo de fonte
+			classReduce:'reduceText',
+			// Nome da classe de reducao da fonte
+			classReset:'resetText',
+			// Nome da classe de reducao da fonte
+			classEnlarge:'enlargeText',
+			// Nome da classe de reducao da fonte
+			clicks:false,
+			// Quantidade de clicks configurado ("false" ou inteiro referente a quantidade de clicks aceitos)
+			containerInsert:false,
+			// Container onde vao ser inseridos os elementos ("false" ou nome do elemento onde serao inseridos os elementos
+			//EX: "#container-test" ou ".container-test")
+			optionInterface:'link',
+			// Opcao de retorno de insercao dos elementos que trabalham com a fonte ("link" ou "button";
+			// Aceitos somente se a opcao "containerInsert" for diferente de "false")
+			cookie:true,
+			// Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
+			fontType:'px',
+			imageAnimation:false,
+			// Verificacao para salvar fonte como COOKIE ("false" ou nome do elemento do array "COOKIE" configurado; Necessita do arquivo "jquery.cookie.js")
+		};
 		if (settings) {
 			$.extend(config, settings);
 		}
 
-		var $obj = $(configSelector), // o objeto com base no container informado na inicializacao
-			$img = $obj.find('img'), // Achando imagem dentro do container inicializado
+		// o objeto com base no container informado na inicializacao
+		var $obj = $(configSelector),
+			// Achando imagem dentro do container inicializado
+			$img = $obj.find('img'),
 			// Pegando a altura da imagem
-			fontDefault = $obj.css('font-size'), // Pegando o atributo "font-size" do container inicializado
-			currentSize = parseInt($obj.css('font-size')), // Passando o valor "font-size" para um valor @int
-			userClicksReduce = userClicksEnlarge = 0, // Inicializando o valor de quantidade de clicks para aumento com '0'
-			percent = 100, // Valor para imagem
-			fontEnlarge = fontReduce = cookieClicks = value = ''// Inicializando o valor de reducao com '' Valor do COOKIE
+			fontDefault = $obj.css('font-size'),
+			// Pegando o atributo "font-size" do container inicializado
+			currentSize = parseInt($obj.css('font-size'), 10),
+			// Passando o valor "font-size" para um valor @int
+			userClicksReduce = 0,
+			// Inicializando o valor de quantidade de clicks para aumento com '0'
+			userClicksEnlarge = 0,
+			// Valor para imagem
+			percent = 100,
+			fontEnlarge = '',
+			fontReduce = '',
+			cookieClicks = ''
 		;
 
 		var $classReduce = $('.' + config.classReduce),
@@ -77,28 +100,30 @@
 			'-ms-interpolation-mode': 'bicubic'
 		});
 
+		var imgDefault = $img.width(),
+			currentImageSize = imgDefault
+		;
+
 		if(config.imageAnimation !== false){
-			var imgDefault = $img.width(),
-				imgDefaultHeight = $img.height()
-			;
 			$img.removeAttr('width').width(imgDefault);
 		}
 		// Pegando o valor do COOKIE, caso ele exista no NAVEGADOR insere o valor dele no container especificado
 		if ((config.cookie !== false) && (config.cookie !== 'null') && (config.cookie !== null)) {
 			cookieClicks = $.cookie(config.cookie);
-			currentSize = (! isNaN(cookieClicks) &&  cookieClicks != null) ? parseInt(cookieClicks) : parseInt(fontDefault);
-			fontDefault = parseInt(fontDefault);
+			currentSize = (! isNaN(cookieClicks) &&  cookieClicks !== null) ? parseInt(cookieClicks, 10) : parseInt(fontDefault, 10);
+			fontDefault = parseInt(fontDefault, 10);
 
 			//	Verificando se o Tamanho em COOKIE e maior que o tamanho padrao
 			if( currentSize !== null && currentSize > fontDefault){
 				userClicksEnlarge = ((currentSize-fontDefault) / config.variation);
-
-				$img.css('width', parseInt(((imgDefault * percent) / 100) + ( parseInt(imgDefault / 100) + userClicksEnlarge) ) + config.fontType);
+				currentImageSize = ((imgDefault * percent) / 100) + ( parseInt(imgDefault / 100, 10) + userClicksEnlarge) + config.fontType;
+				$img.css('width', parseInt(currentImageSize, 10));
 			}//	Verificando se o Tamanho em COOKIE e maior que o tamanho padrao
 			if( currentSize !== null && currentSize < fontDefault){
 				userClicksReduce = ((fontDefault-currentSize) / config.variation);
+				currentImageSize = ((imgDefault * percent) / 100) - ( parseInt(imgDefault / 100, 10) + userClicksReduce)  + config.fontType;
 
-				$img.css('width', parseInt(((imgDefault * percent) / 100) - ( parseInt(imgDefault / 100) + userClicksReduce) )  + config.fontType);
+				$img.css('width', parseInt(currentImageSize, 10));
 			}
 			$obj.css('font-size', cookieClicks + config.fontType);
 		}
@@ -109,23 +134,23 @@
 				htmlContent = '';
 			// Verificacao para a opcao de interface como LINK ou BUTTON
 			if (config.optionInterface === 'link') {
-				htmlContent = '<a href="#" class="' + config.classReduce
-								+ '" title="reduce text">' + config.reduceText
-								+ '</a><a href="#" class="' + config.classReset
-								+ '" title="reset text">' + config.resetText
-								+ '</a><a href="#" class="'
-								+ config.classEnlarge
-								+ '" title="enlarge text">'
-								+ config.enlargeText + '</a>';
+				htmlContent = '<a href="#" class="' + config.classReduce +
+								'" title="reduce text">' + config.reduceText +
+								'</a><a href="#" class="' + config.classReset +
+								'" title="reset text">' + config.resetText +
+								'</a><a href="#" class="' +
+								config.classEnlarge +
+								'" title="enlarge text">' +
+								config.enlargeText + '</a>';
 			} else if (config.optionInterface === 'button') {
-				htmlContent = '<input type="button" value="' + config.reduceText
-								+ '" class="' + config.classReduce
-								+ '" /><input type="button" value="'
-								+ config.resetText + '" class="'
-								+ config.classReset
-								+ '" /><input type="button" value="'
-								+ config.enlargeText + '" class="'
-								+ config.classEnlarge + '" />';
+				htmlContent = '<input type="button" value="' + config.reduceText +
+								'" class="' + config.classReduce +
+								'" /><input type="button" value="' +
+								config.resetText + '" class="' +
+								config.classReset +
+								'" /><input type="button" value="' +
+								config.enlargeText + '" class="' +
+								config.classEnlarge + '" />';
 			}
 			$containerInsert.html( htmlContent );
 
@@ -138,30 +163,31 @@
 				percent -= config.variation;
 				fontReduce = currentSize - config.variation;
 
-				if (config.animation == true) {
+				if (config.animation === true) {
 					$obj.animate({
 						'font-size' : fontReduce + config.fontType
 					}, config.delay);
 
 					if(config.imageAnimation !== false){
 						$img.animate({
-							'width' : parseInt((imgDefault * percent) / 100),
+							'width' : parseInt((imgDefault * percent) / 100, 10),
 						}, config.delay);
 					}
 
 				} else {
 					$obj.css('font-size', fontReduce);
-					$img.css('width', parseInt((imgDefault * percent) / 100));
+					$img.css('width', parseInt((imgDefault * percent) / 100, 10));
 				}
 				// Incremento no contador REDUCE
 				++userClicksReduce;
 				// Decremento no contador ENLARGE
-				if (userClicksEnlarge > 0)
+				if (userClicksEnlarge > 0){
 					--userClicksEnlarge;
+				}
 
 				currentSize = fontReduce;
 				// COOKIE Verification
-				if ((config.cookie != false)) {
+				if ((config.cookie !== false)) {
 					cookieClicks = $.cookie(config.cookie);
 					cookieClicks = currentSize;
 					$.cookie(config.cookie, cookieClicks, {path : '/', expires : 5 });
@@ -174,26 +200,26 @@
 
 				percent += config.variation;
 				fontEnlarge = currentSize + config.variation;
-				if (config.animation == true) {
+				if (config.animation === true) {
 					$obj.animate({
 						'font-size' : fontEnlarge + config.fontType
 					}, config.delay);
 
 					if(config.imageAnimation !== false){
 						$img.animate({
-							'width' : parseInt((imgDefault * percent) / 100),
-							//'height' : parseInt((imgDefaultHeight * percent) / 100)
+							'width' : parseInt((imgDefault * percent) / 100, 10),
 						}, config.delay);
 					}
 				} else {
 					$obj.css('font-size', fontEnlarge);
-					$img.css('width', parseInt((imgDefault * percent) / 100));
+					$img.css('width', parseInt((imgDefault * percent) / 100, 10));
 				}
 				// Decremento no contador ENLARGE
 				++userClicksEnlarge;
 				// Decremento no contador REDUCE
-				if (userClicksReduce > 0)
+				if (userClicksReduce > 0){
 					--userClicksReduce;
+				}
 
 				currentSize = fontEnlarge;
 				// COOKIE Verification
@@ -208,7 +234,7 @@
 		// Funcao para retornar o texto ao tamanho padrÃ£o
 		$classReset.live('click', function() {
 
-			if (config.animation == true) {
+			if (config.animation === true) {
 				$obj.animate({
 					'font-size' : fontDefault
 				}, config.delay);
@@ -216,16 +242,15 @@
 				if(config.imageAnimation !== false){
 					$img.animate({
 						'width' : imgDefault,
-						//'height' : imgDefaultHeight
 					}, config.delay);
 				}
 			} else {
 				$obj.css('font-size', fontDefault);
-				$img.css('width', parseInt(imgDefault));
+				$img.css('width', parseInt(imgDefault, 10));
 			}
 			// Reiniciando os valores
 			userClicksReduce = userClicksEnlarge = 0;
-			currentSize = parseInt(fontDefault);
+			currentSize = parseInt(fontDefault, 10);
 			// COOKIE Verification
 			if ((config.cookie !== false)) {
 				cookieClicks = 'null';
@@ -233,7 +258,7 @@
 			}
 		});
 		return this;
-	}
+	};
 })(jQuery);
 /**
  * Finalizando o plugin Jquery Text Resize @name = jquery.text.resize.js
