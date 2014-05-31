@@ -1,0 +1,27 @@
+{
+  "name": "jquery-text-resize",
+  "authors": [
+    "Wilson Mendes <willmendesneto@gmail.com>"
+  ],
+  "main": "dist/jquery-text-resize.js",
+  "license": "MIT",
+  "description": "Manipulation and Resizing text",
+  "homepage": "http://willmendesneto.github.io/Jquery­Text­Resize/",
+  "version": "0.1.0",
+  "keywords": [
+    "resize",
+    "network",
+    "text",
+    "manipulation",
+    "javascript",
+    "api",
+    "jquery",
+    "plugin"
+  ],
+  "dependencies": {
+    "jquery": "~1.7.1"
+  },
+  "devDependencies": {
+    "yuidoc-bootstrap-theme": "https://github.com/kevinlacotaco/yuidoc-bootstrap-theme.git"
+  }
+}
